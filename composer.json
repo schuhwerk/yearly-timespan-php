@@ -15,8 +15,7 @@
     "autoload": {
         "psr-4": {
             "Yearly_Timespan\\": "src\\"
-        },
-        "smhg/date-timespan": "^2.0"
+        }
     },
     "require-dev": {
         "phpunit/phpunit": "^6"
