@@ -4,7 +4,7 @@ Heavily using [smhg](https://github.com/smhg/)s [date-timespan](https://github.c
 
 ## Installation
 ```bash
-composer require tivus/yearly-timespan
+composer require tivus/yearly-timespan dev-master
 ```
 
 
