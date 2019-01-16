@@ -1,6 +1,6 @@
 Collection of PHP classes to work with yearly repeating timespans.
 
-Heavily using [smhg](https://github.com/smhg/)s [date-timespan](date-timespan).
+Heavily using [smhg](https://github.com/smhg/)s [date-timespan](https://github.com/smhg/date-timespan-php).
 
 ## Installation
 ```bash
@@ -90,7 +90,7 @@ Extends the [smgh/timespan Class](https://github.com/smhg/date-timespan-php#time
      * that references all Timespans (from the $timespan_collection)
      * (via an array index), that overlap the newliy create specific timespans ( $navigation ).
      */
-	$navigation = $yearly_collection->group_timespans_by_collection( $timespan_collection );
+    $navigation = $yearly_collection->group_timespans_by_collection( $timespan_collection );
 
     // Get an array of summerterms (specific timespans, not yearly ones) that overlap the given timespan.
     $many_terms = $yearly_collection->filter('any', 'Summerterm')->get_from_timespan(
