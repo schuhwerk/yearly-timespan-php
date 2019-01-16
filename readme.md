@@ -1,9 +1,11 @@
 Collection of PHP classes to work with yearly repeating timespans.
 
-Heavily using [smhg]s(https://github.com/smhg/) [date-timespan](date-timespan).
+Heavily using [smhg](https://github.com/smhg/)s [date-timespan](date-timespan).
 
 ## Installation
+```bash
 composer require tivus/yearly-timespan
+```
 
 
 ## Classes
@@ -84,7 +86,8 @@ Extends the [smgh/timespan Class](https://github.com/smhg/date-timespan-php#time
 
     /**
      * Create an array of specific timespans (form the yearly ones) that overlap our new $timespan_collection.
-     * The new \Timespan\Collection Object ($navigation) has a data attribute that references all Timespans (from the $timespan_collection)
+     * The new \Timespan\Collection Object ($navigation) has a data attribute 
+     * that references all Timespans (from the $timespan_collection)
      * (via an array index), that overlap the newliy create specific timespans ( $navigation ).
      */
 	$navigation = $yearly_collection->group_timespans_by_collection( $timespan_collection );
