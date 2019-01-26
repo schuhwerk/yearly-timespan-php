@@ -1,11 +1,7 @@
 <?php
 namespace Yearly_Timespan;
 
-require_once dirname( __DIR__ ) . '/vendor/autoload.php';
-
-use Timespan\Timespan;
-
-use Yearly_Timespan\Yearly_Date;
+use \Timespan\Timespan;
 
 use \DateTime;
 use \DateInterval;
@@ -57,8 +53,6 @@ class Yearly_Timespan extends Named_Timespan {
 		return \intval( $interval->format( 'y' ) );
 	}
 
-
-
 	/**
 	 * Check if the current timespan overlaps the year-border (dec-jan).
 	 * If that is the case, the second
@@ -106,6 +100,33 @@ class Yearly_Timespan extends Named_Timespan {
 		);
 	}
 
+	public static function createFromArray( array $arr ) {
+		return new self(
+			new DateTime( $arr['start'] ),
+			new DateTime( $arr['end'] ),
+			$arr['name'],
+			$arr['type']
+		);
+		// return $span;
+	}
+
+	/**
+	 * Create a Yearly Timespan from an array.
+	 *
+	 * @todo quite low performance, lots of objects.
+	 *
+	 * @param array $arr
+	 * @return void
+	 */
+	/*
+	  public static function createFromArray( array $arr ){
+
+		return new self::__construct();
+		return self::create_from_timespan(
+			parent::createFromArray($arr), $arr['name'], $arr['type']
+		);
+	} */
+
 	/**
 	 * Cast an "abstract" Yearly_Timespan to a new "specific" (not yearly) Timespan.
 	 *
@@ -133,7 +154,7 @@ class Yearly_Timespan extends Named_Timespan {
 
 	}
 
-	private function add_years( int $years ){
+	private function add_years( int $years ) {
 		$this->start->modify( "+$years years" );
 		$this->end->modify( "+$years years" );
 		return $this;
@@ -168,10 +189,9 @@ class Yearly_Timespan extends Named_Timespan {
 	public function overlaps( \Timespan\Timespan $span ) {
 		if ( $span instanceof Yearly_Timespan ) {
 			$compare = clone $span;
-			//echo( 'is instance of yts ' . print_r( $compare, true ) );
-			if ( parent::overlaps( $compare )){
+			if ( parent::overlaps( $compare ) ) {
 				return 1; // matches year 0.
-			} elseif ( parent::overlaps( $compare->add_years(1) ) ){
+			} elseif ( parent::overlaps( $compare->add_years( 1 ) ) ) {
 				return 2; // matches year 1.
 			} else {
 				return 0; // doesn't match.
@@ -183,7 +203,6 @@ class Yearly_Timespan extends Named_Timespan {
 			 */
 			return $this->overlaps( self::create_from_timespan( $span ) );
 		}
-		
 
 	}
 }

@@ -32,12 +32,21 @@ class Named_Timespan extends Timespan {
 	 * @return void
 	 */
 	public function toArray(){
-		return array(
-			'start' => $this->start,
-			'end' => $this->end,
-			'name' => $this->name,
-			'type' => $this->type,
+		return array_merge(
+			parent::toArray(),
+			['name' => $this->name,
+			'type' => $this->type]
 		);
+	}
+
+	public static function createFromArray( array $arr ){
+		$span = new self( 
+			new DateTime( $arr['start']),
+			new DateTime( $arr['end'] )
+		);
+		$span->set_name($arr['name']);
+		$span->set_type($arr['type']);
+		return $span;
 	}
 
 	/**
