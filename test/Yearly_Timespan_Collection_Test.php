@@ -26,10 +26,10 @@ class Yearly_Date_Test extends TestCase {
 	}
 
 
-	public function test_get_from_timespan() {
+	public function test_make_all_timespans_between() {
 		$collection = $this->make_collection();
 		$timespan   = new Timespan( new DateTime( '1990-02-02' ), new DateTime( '2015-02-02' ) );
-		$results    = $collection->filter( 'Semester' )->get_from_timespan( $timespan );
+		$results    = $collection->filter( 'Semester' )->make_all_timespans_between( $timespan );
 		$this->assertEquals( 51, count( $results ) );
 	}
 

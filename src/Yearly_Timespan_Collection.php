@@ -8,7 +8,7 @@ use \Timespan\Timespan;
 
 /**
  * Defined by a start and an end month and day.
- * 
+ *
  * Yearly Timespans (called abstract timespans here) don't have a year. So the Yearly_Timespan (day.month) 1.1 - 1.2 overlaps
  * the Date 10.1.2010 and the Date 10.1.2011, ...
  *
@@ -127,7 +127,7 @@ class Yearly_Timespan_Collection extends \Timespan\Collection {
 	 * @return \Timespan\Timespan
 	 */
 	public function get() {
-		if ( 0 === $this->selected_year ){
+		if ( 0 === $this->selected_year ) {
 			throw new Exception( 'Select a Year with the select() function first!' );
 		}
 		return $this[ $this->selected_span ]->cast_to_year( $this->selected_year );
@@ -141,25 +141,27 @@ class Yearly_Timespan_Collection extends \Timespan\Collection {
 	 * @param DateTime $selected If set, the newly created spans that contain the given date will have ->selected set true.
 	 * @return \Timespan\Collection
 	 */
-	public function get_from_timespan( Timespan $search_span, DateTime $selected = null ) {
-		$output_spans = [];
-		$more         = true;
+	public function make_all_timespans_between( Timespan $search_span, DateTime $selected = null ) {
+		$output_spans       = [];
+		$more               = true;
+		$start_year_iterate = clone $search_span->start;
 		while ( $more ) {
 			/**
 			 * @var Yearly_Timespan $span
 			 */
 			foreach ( $this as $key => $span ) {
-				$new_span = $span->cast_to_year( $search_span->start );
+				$new_span = $span->cast_to_year( $start_year_iterate );
 				if ( $new_span->overlaps( $search_span ) ) {
 					if ( $selected && $new_span->contains( $selected ) ) {
 						$new_span->selected = true;
 					}
 					$output_spans[] = $new_span;
-				} else {
+					// $more = true;
+				} elseif ( $new_span->start > $search_span->end ) {
 					$more = false;
 				}
 			}
-			$search_span->start->modify( '+1 year' );
+			$start_year_iterate->modify( '+1 year' );
 		}
 		$coll = new Collection( $output_spans );
 		return $coll->sort();
@@ -167,7 +169,7 @@ class Yearly_Timespan_Collection extends \Timespan\Collection {
 
 	/**
 	 * You have a set of concrete input timespans (that are not related to the yearly timspans).
-	 * Returns all overlapping concrete yearly timespans with a "data"-key which contains 
+	 * Returns all overlapping concrete yearly timespans with a "data"-key which contains
 	 * the indexes of the overlapping input timespans.
 	 *
 	 * @todo: remove empty?
@@ -175,17 +177,23 @@ class Yearly_Timespan_Collection extends \Timespan\Collection {
 	 * @return void
 	 */
 	public function group_timespans_by_collection( \Timespan\Collection $timespans ) {
+
+		/**
+		 * Make a timespan that spans all timespans in the collection.
+		 */
 		foreach ( $timespans as $timespan ) {
-			$start = ( ! isset( $start ) || $timespan->start < $start ) ? $timespan->start : $start;
-			$end   = ( ! isset( $end ) || $timespan->end > $end ) ? $timespan->end : $end;
+			$start = ( ( ! isset( $start ) || $timespan->start < $start ) ) ? $timespan->start : $start;
+			$end   = ( ( ! isset( $end ) || $timespan->end > $end ) ) ? $timespan->end : $end;
 		}
-		$results = $this->get_from_timespan( new Timespan( clone $start, clone $end ) );
+
+		$min_max = new \Timespan\Timespan( clone $start, clone $end );
+		$all_ts_between = $this->make_all_timespans_between( $min_max );
 
 		$remove = array();
 		/**
 		 * @see https://stackoverflow.com/questions/1949259/how-do-you-remove-an-array-element-in-a-foreach-loop
 		 */
-		foreach ( $results as $result_key => &$result ) {
+		foreach ( $all_ts_between as $result_key => &$result ) {
 			/**
 			 * @var \Timespan\Timespan $result
 			 */
@@ -198,7 +206,7 @@ class Yearly_Timespan_Collection extends \Timespan\Collection {
 				}
 			}
 		}
-		return $results;
+		return $all_ts_between;
 	}
 
 }

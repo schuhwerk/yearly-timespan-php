@@ -93,7 +93,7 @@ Extends the [smgh/timespan Class](https://github.com/smhg/date-timespan-php#time
     $navigation = $yearly_collection->group_timespans_by_collection( $timespan_collection );
 
     // Get an array of summerterms (specific timespans, not yearly ones) that overlap the given timespan.
-    $many_terms = $yearly_collection->filter('any', 'Summerterm')->get_from_timespan(
+    $many_terms = $yearly_collection->filter('any', 'Summerterm')->make_all_timespans_between(
         new Timespan(
             new DateTime('1990-01-01'),
             new DateTime('2010-01-01')
