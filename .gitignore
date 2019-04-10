@@ -1,2 +1,5 @@
 /vendor
 /composer.lock
+
+#vscode settings file.
+settings.json

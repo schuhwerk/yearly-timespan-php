@@ -2,6 +2,7 @@
 namespace Yearly_Timespan;
 
 Use \Timespan\Timespan;
+Use DateTimeInterface;
 Use DateTime;
 
 class Named_Timespan extends Timespan {
@@ -54,8 +55,8 @@ class Named_Timespan extends Timespan {
 	 *
 	 * @param [type] $start_column
 	 * @param [type] $end_column
-	 * @param DateTime $start default is the start date of the current instance.
-	 * @param DateTime $end default is the end date of the current instance.
+	 * @param DateTimeInterface $start default is the start date of the current instance.
+	 * @param DateTimeInterface $end default is the end date of the current instance.
 	 * @return void
 	 */
 	public function to_query( $start_column, $end_column, $start = '', $end = '' ) {

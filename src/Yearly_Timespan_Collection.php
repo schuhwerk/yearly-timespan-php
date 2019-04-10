@@ -2,7 +2,7 @@
 
 namespace Yearly_Timespan;
 
-use \DateTime;
+use \DateTimeInterface;
 use \Timespan\Collection;
 use \Timespan\Timespan;
 
@@ -61,10 +61,10 @@ class Yearly_Timespan_Collection extends \Timespan\Collection {
 	/**
 	 * Undocumented function
 	 *
-	 * @param DateTime $date
+	 * @param DateTimeInterface $date
 	 * @return Yearly_Timespan_Collection
 	 */
-	public function select( DateTime $date ) {
+	public function select( DateTimeInterface $date ) {
 		$this->selected_year = intval( $date->format( 'Y' ) );
 		foreach ( $this as $key => $span ) {
 			/**
@@ -138,10 +138,10 @@ class Yearly_Timespan_Collection extends \Timespan\Collection {
 	 * that overlap the given $search_span.
 	 *
 	 * @param Timespan $search_span
-	 * @param DateTime $selected If set, the newly created spans that contain the given date will have ->selected set true.
+	 * @param DateTimeInterface $selected If set, the newly created spans that contain the given date will have ->selected set true.
 	 * @return \Timespan\Collection
 	 */
-	public function make_all_timespans_between( Timespan $search_span, DateTime $selected = null ) {
+	public function make_all_timespans_between( Timespan $search_span, DateTimeInterface $selected = null ) {
 		$output_spans       = [];
 		$more               = true;
 		$start_year_iterate = clone $search_span->start;

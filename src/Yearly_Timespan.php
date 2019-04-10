@@ -4,6 +4,7 @@ namespace Yearly_Timespan;
 use \Timespan\Timespan;
 
 use \DateTime;
+use \DateTimeInterface;
 use \DateInterval;
 use \DatePeriod;
 use \ArrayObject;
@@ -30,12 +31,12 @@ class Yearly_Timespan extends Named_Timespan {
 	 *
 	 * @todo: add support for multiyear timespans.
 	 *
-	 * @param DateTime|Yearly_Date $start
-	 * @param DateTime|Yearly_Date $end
+	 * @param DateTimeInterface|Yearly_Date $start
+	 * @param DateTimeInterface|Yearly_Date $end
 	 * @param [type]               $name
 	 * @param string               $type
 	 */
-	public function __construct( DateTime $start, DateTime $end, $name, $type = '' ) {
+	public function __construct( DateTimeInterface $start, DateTimeInterface $end, $name, $type = '' ) {
 
 		if ( $this->count_years( $start, $end ) > 1 ) {
 			die( 'This class currently only supports timespans of less than a year.' );
@@ -48,7 +49,7 @@ class Yearly_Timespan extends Named_Timespan {
 		$this->check_over_years();
 	}
 
-	public function count_years( DateTime $start, DateTime $end ) {
+	public function count_years( DateTimeInterface $start, DateTimeInterface $end ) {
 		$interval = $start->diff( $end );
 		return \intval( $interval->format( 'y' ) );
 	}
@@ -130,7 +131,7 @@ class Yearly_Timespan extends Named_Timespan {
 	/**
 	 * Cast an "abstract" Yearly_Timespan to a new "specific" (not yearly) Timespan.
 	 *
-	 * @param DateTime|int $date a specific DateTime of just a year.
+	 * @param DateTimeInterface|int $date a specific DateTime of just a year.
 	 * @return Named_Timespan
 	 */
 	public function cast_to_year( $date ) {
@@ -165,11 +166,11 @@ class Yearly_Timespan extends Named_Timespan {
 	 * Returns 1: The event is in the first year.
 	 * Returns 2: The event is in the second year.
 	 *
-	 * @param DateTime $date
+	 * @param DateTimeInterface $date
 	 * @return int
 	 */
-	public function contains( DateTime $date ) {
-		if ( $date instanceof DateTime ) {
+	public function contains( DateTimeInterface $date ) {
+		if ( $date instanceof DateTimeInterface ) {
 			$date = Yearly_Date::createFromDate( $date );
 		} else {
 			$date = clone ($date);
