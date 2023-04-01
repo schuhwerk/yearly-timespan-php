@@ -62,8 +62,8 @@ class Named_Timespan extends Timespan {
 	public function to_query( $start_column, $end_column, $start = '', $end = '' ) {
 		$start = ( $start ) ? $start : $this->start;
 		$end   = ( $end ) ? $end : $this->end;
-		$start = $timespan->start->format( 'Y-m-d' );
-		$end   = $timespan->end->format( 'Y-m-d' );
+		$start = $this->start->format( 'Y-m-d' );
+		$end   = $this->end->format( 'Y-m-d' );
 		return "$start_column <= '$end' AND $end_column >= '$start'";
 	}
 }
