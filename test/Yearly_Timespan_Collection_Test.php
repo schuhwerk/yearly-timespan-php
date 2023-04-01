@@ -5,7 +5,7 @@ use \DateTime;
 use \Timespan\Timespan;
 use PHPUnit\Framework\TestCase;
 
-class Yearly_Date_Test extends TestCase {
+class Yearly_Timespan_Collection_Test extends TestCase {
 
 	public function test_constructor_exception() {
 		$this->expectException( \InvalidArgumentException::class );
