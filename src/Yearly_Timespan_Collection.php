@@ -13,7 +13,7 @@ use \Timespan\Timespan;
  * the Date 10.1.2010 and the Date 10.1.2011, ...
  *
  * Things this class does:
- * - Cast an (anstract) Summerterm (5.2 - 14.7) to 2018 -> (5.2.2018 - 14.7.2018)
+ * - Cast an (abstract) Summerterm (5.2 - 14.7) to 2018 -> (5.2.2018 - 14.7.2018)
  * - Todays date is 6.2.2020. Which (abstract timespans) (of type semester) overlap this Date?
  * - What is the next (concrete) timespan of the timespan mentioned above?
  * - What concrete Timespans (derived from abstract Timespans) overlap the Timespan between 1.1.1950 and 2.2.2020?
@@ -37,7 +37,7 @@ class Yearly_Timespan_Collection extends \Timespan\Collection {
 	/**
 	 * Filtering removes elements from the array ($this)
 	 * if not all parameters are true.
-	 * todo: do this could probbaly via array_filter?
+	 * todo: do this could probably via array_filter?
 	 *
 	 * @param string $type
 	 * @param string $name
@@ -134,7 +134,7 @@ class Yearly_Timespan_Collection extends \Timespan\Collection {
 	}
 
 	/**
-	 * Get all specific Timespans from the the current abstact Timespans (yearly)
+	 * Get all specific Timespans from the the current abstract Timespans (yearly)
 	 * that overlap the given $search_span.
 	 *
 	 * @param Timespan $search_span
@@ -168,7 +168,7 @@ class Yearly_Timespan_Collection extends \Timespan\Collection {
 	}
 
 	/**
-	 * You have a set of concrete input timespans (that are not related to the yearly timspans).
+	 * You have a set of concrete input timespans (that are not related to the yearly timespans).
 	 * Returns all overlapping concrete yearly timespans with a "data"-key which contains
 	 * the indexes of the overlapping input timespans.
 	 *

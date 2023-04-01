@@ -5,23 +5,15 @@ use \Timespan\Timespan;
 
 use \DateTime;
 use \DateTimeInterface;
-use \DateInterval;
-use \DatePeriod;
-use \ArrayObject;
-use \DateTimeZone;
 
 class Yearly_Timespan extends Named_Timespan {
 
 	/**
-	 * Undocumented variable
-	 *
 	 * @var Yearly_Date
 	 */
 	public $start;
 
 	/**
-	 * Undocumented variable
-	 *
 	 * @var Yearly_Date
 	 */
 	public $end;
@@ -75,7 +67,7 @@ class Yearly_Timespan extends Named_Timespan {
 	 * @param string $type
 	 * @return boolean
 	 */
-	public function has( string $thing, string $contains ) {
+	public function has( string $thing, string|DateTime $contains ) {
 		if ( 'any' === $contains ) {
 			return true;
 		}
@@ -181,7 +173,7 @@ class Yearly_Timespan extends Named_Timespan {
 		if ( parent::contains( $date ) ) {
 			return 1; // matches year 0.
 		} elseif ( parent::contains( $date->add_years( 1 ) ) ) {
-			return 2; // matches year 1. event from dec to jan machtes jan.
+			return 2; // matches year 1. event from dec to jan matches jan.
 		} else {
 			return 0; // doesn't match.
 		}
