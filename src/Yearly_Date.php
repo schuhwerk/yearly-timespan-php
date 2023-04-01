@@ -47,9 +47,9 @@ class Yearly_Date extends DateTime {
 	 * @param [type] $format
 	 * @param [type] $time
 	 * @param string $timezone
-	 * @return void
+	 * @return DateTime|false
 	 */
-	public static function createFromFormat( $format, $time, $timezone = null ) {
+	public static function createFromFormat( $format, $time, $timezone = null ) : DateTime|false {
 		$instance = parent::createFromFormat( $format, $time, $timezone );
 		return new Yearly_Date( self::get_clean_timestring( $instance ) );
 	}
