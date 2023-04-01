@@ -14,8 +14,8 @@ class Yearly_Timespan_Test extends TestCase {
 	 */
 	public function make_yearly_timespan(){
 		return new Yearly_Timespan(
-			Yearly_Date::createFromFormat( 'd.m', '02.07' ), // start
-			Yearly_Date::createFromFormat( 'd.m', '01.02' ), // end
+			Yearly_Date::createFromFormat( 'd.m', '02.07' ), // start.
+			Yearly_Date::createFromFormat( 'd.m', '01.02' ), // end.
 			'Wintersemester',
 			'Offset-Semester'
 		);
@@ -48,6 +48,23 @@ class Yearly_Timespan_Test extends TestCase {
 			2, 
 			$yts->contains(\DateTime::createFromFormat( 'd.m.Y', '15.01.2019'))
 		);
+	}
+
+	/**
+	 * Check if a Yearly timespan contains a date.
+	 *
+	 * @return void
+	 */
+	public function test_has(){
+		$yts = $this->make_yearly_timespan();
+		$this->assertEquals( false, $yts->has('date', new DateTime() ) );
+		$this->assertEquals( false, $yts->has('date', DateTime::createFromFormat( 'd.m', '02.02' ) ) );
+		$this->assertEquals( true, $yts->has('date', DateTime::createFromFormat( 'd.m', '01.01' ) ) );
+		$this->assertEquals( true, $yts->has('name', 'Wintersemester' ) );
+		$this->assertEquals( true, $yts->has('type', 'Offset-Semester' ) );
+		$this->assertEquals( true, $yts->has('date', 'any' ) );
+		$this->assertEquals( true, $yts->has('type', 'any' ) );
+		$this->assertEquals( false, $yts->has('name', 'foo' ) );
 	}
 	
 
