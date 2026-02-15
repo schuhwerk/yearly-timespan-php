@@ -11,11 +11,22 @@ class Named_Timespan extends Timespan {
 	public $type;
 
 	/**
-	 * Undocumented variable
+	 * Optional extra metadata for custom/legacy callers.
+	 * Known fields are declared as first-class properties below.
 	 *
-	 * @var array contains things like 'current' or 'selected'.
+	 * @var array|null
 	 */
 	public $attrs;
+	/** @var bool|null */
+	public $current;
+	/** @var bool|null */
+	public $selected;
+	/** @var array */
+	public $data = array();
+	/** @var string|null */
+	public $short;
+	/** @var string|null */
+	public $long;
 
 	public function set_name( $name ) {
 		$this->name = $name;
@@ -41,7 +52,7 @@ class Named_Timespan extends Timespan {
 	}
 
 	public static function createFromArray( array $arr ){
-		$span = new self( 
+		$span = new self(
 			new DateTime( $arr['start']),
 			new DateTime( $arr['end'] )
 		);
