@@ -1,5 +1,5 @@
 {
-    "name": "tivus/yearly-timespan",
+    "name": "schuhwerk/yearly-timespan-php",
     "description": "yearly timspans, timelines, sql-friendly",
     "require": {
         "smhg/date-timespan": "^2.0",
@@ -8,7 +8,7 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "vitus",
+            "name": "vitus schuhwerk",
             "email": "vitus.schuhwerk@gmail.com"
         }
     ],
