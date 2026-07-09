@@ -27,6 +27,8 @@ class Named_Timespan extends Timespan {
 	public $short;
 	/** @var string|null */
 	public $long;
+	/** @var bool|null */
+	public $is_current;
 
 	public function set_name( $name ) {
 		$this->name = $name;
