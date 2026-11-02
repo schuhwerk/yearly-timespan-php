@@ -24,7 +24,7 @@ class Yearly_Timespan_Collection extends \Timespan\Collection {
 
 	public $selected_year = 0;
 
-	public function __construct( array $mixed = null ) {
+	public function __construct( ?array $mixed = null ) {
 		parent::__construct( $mixed );
 		foreach ( $this as $key => $span ) {
 			if ( ! $span instanceof Yearly_Timespan ) {
@@ -70,7 +70,7 @@ class Yearly_Timespan_Collection extends \Timespan\Collection {
 			/**
 			 * @var Yearly_Timespan $span
 			 */
-			$contains = $span->contains( $date );
+			$contains = $span->contains_match( $date );
 			if ( $contains ) {
 				$this->selected_span = $key;
 				if ( 2 == $contains ) { // matched a timespan which starts in prev year.

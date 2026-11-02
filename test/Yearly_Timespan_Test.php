@@ -46,7 +46,7 @@ class Yearly_Timespan_Test extends TestCase {
 		$yts = $this->make_yearly_timespan();
 		$this->assertEquals( 
 			2, 
-			$yts->contains(\DateTime::createFromFormat( 'd.m.Y', '15.01.2019'))
+			$yts->contains_match(\DateTime::createFromFormat( 'd.m.Y', '15.01.2019'))
 		);
 	}
 
@@ -57,7 +57,7 @@ class Yearly_Timespan_Test extends TestCase {
 	 */
 	public function test_has(){
 		$yts = $this->make_yearly_timespan();
-		$this->assertEquals( false, $yts->has('date', new DateTime() ) );
+		$this->assertEquals( false, $yts->has('date', DateTime::createFromFormat( 'd.m', '15.03' ) ) );
 		$this->assertEquals( false, $yts->has('date', DateTime::createFromFormat( 'd.m', '02.02' ) ) );
 		$this->assertEquals( true, $yts->has('date', DateTime::createFromFormat( 'd.m', '01.01' ) ) );
 		$this->assertEquals( true, $yts->has('name', 'Wintersemester' ) );
@@ -76,7 +76,7 @@ class Yearly_Timespan_Test extends TestCase {
 			\DateTime::createFromFormat( 'd.m.Y', '15.02.2019')
 		);
 
-		$this->assertEquals(1, $yts->overlaps( $yts ));
-		$this->assertEquals(2, $yts->overlaps( $ts ));
+		$this->assertEquals(1, $yts->overlaps_match( $yts ));
+		$this->assertEquals(2, $yts->overlaps_match( $ts ));
 	}
 }

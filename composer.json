@@ -3,8 +3,8 @@
     "description": "yearly timspans, timelines, sql-friendly",
     "homepage": "https://github.com/schuhwerk/yearly-timespan-php",
     "require": {
-        "smhg/date-timespan": "^2.0",
-        "php": ">=8.0"
+        "smhg/date-timespan": "^6.0",
+        "php": ">=8.3"
     },
     "license": "MIT",
     "authors": [

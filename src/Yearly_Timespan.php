@@ -6,17 +6,11 @@ use \Timespan\Timespan;
 use \DateTime;
 use \DateTimeInterface;
 
+/**
+ * @property Yearly_Date $start
+ * @property Yearly_Date $end
+ */
 class Yearly_Timespan extends Named_Timespan {
-
-	/**
-	 * @var Yearly_Date
-	 */
-	public $start;
-
-	/**
-	 * @var Yearly_Date
-	 */
-	public $end;
 
 	/**
 	 * Undocumented function
@@ -130,7 +124,7 @@ class Yearly_Timespan extends Named_Timespan {
 		/** there is a special case if over_year is true */
 		if ( $date instanceof DateTime ) {
 			$year     = (int) $date->format( 'Y' );
-			$contains = $this->contains( $date );
+			$contains = $this->contains_match( $date );
 			if ( 2 === $contains ) {
 				$year--;
 			}
@@ -154,49 +148,55 @@ class Yearly_Timespan extends Named_Timespan {
 	}
 
 	/**
-	 * Returns (bigger 0) if the timespan contains $date otherwise (0).
-	 * Returns 1: The event is in the first year.
-	 * Returns 2: The event is in the second year.
+	 * Whether the timespan contains $date (in any year).
 	 *
 	 * @param DateTimeInterface $date
-	 * @return int
+	 * @return bool
 	 */
-	public function contains( DateTimeInterface $date ) {
-		if ( $date instanceof DateTimeInterface ) {
-			$date = Yearly_Date::createFromDate( $date );
-		} else {
-			$date = clone ($date);
-		}
-		/**
-		 * @var Yearly_Date $date
-		 */
-		if ( parent::contains( $date ) ) {
-			return 1; // matches year 0.
-		} elseif ( parent::contains( $date->add_years( 1 ) ) ) {
-			return 2; // matches year 1. event from dec to jan matches jan.
-		} else {
-			return 0; // doesn't match.
-		}
+	public function contains( DateTimeInterface $date ): bool {
+		return 0 !== $this->contains_match( $date );
 	}
 
-	public function overlaps( \Timespan\Timespan $span ) {
-		if ( $span instanceof Yearly_Timespan ) {
-			$compare = clone $span;
-			if ( parent::overlaps( $compare ) ) {
-				return 1; // matches year 0.
-			} elseif ( parent::overlaps( $compare->add_years( 1 ) ) ) {
-				return 2; // matches year 1.
-			} else {
-				return 0; // doesn't match.
-			}
-		} else {
-			/**
-			 * $span is a Timespan (not a Yearly_Timespan).
-			 * Convert $span to Yearly_Timespan and call again.
-			 */
-			return $this->overlaps( self::create_from_timespan( $span ) );
+	/**
+	 * In which year the timespan contains $date.
+	 * The parent's contains() must return bool, so the year lives here.
+	 *
+	 * @param DateTimeInterface $date
+	 * @return int 0: no match, 1: first year, 2: second year (a span from Dec to Jan contains Jan).
+	 */
+	public function contains_match( DateTimeInterface $date ): int {
+		$date = Yearly_Date::createFromDate( $date );
+		if ( parent::contains( $date ) ) {
+			return 1;
 		}
+		return parent::contains( $date->add_years( 1 ) ) ? 2 : 0;
+	}
 
+	/**
+	 * Whether the timespan overlaps $span (in any year).
+	 *
+	 * @param \Timespan\Timespan $span
+	 * @return bool
+	 */
+	public function overlaps( \Timespan\Timespan $span ): bool {
+		return 0 !== $this->overlaps_match( $span );
+	}
+
+	/**
+	 * In which year the timespan overlaps $span.
+	 *
+	 * @param \Timespan\Timespan $span A Timespan is converted to a Yearly_Timespan first.
+	 * @return int 0: no match, 1: first year, 2: second year.
+	 */
+	public function overlaps_match( \Timespan\Timespan $span ): int {
+		if ( ! $span instanceof Yearly_Timespan ) {
+			$span = self::create_from_timespan( $span );
+		}
+		$compare = clone $span;
+		if ( parent::overlaps( $compare ) ) {
+			return 1;
+		}
+		return parent::overlaps( $compare->add_years( 1 ) ) ? 2 : 0;
 	}
 }
 
